@@ -23,6 +23,7 @@
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
+
       background: #111;
 
       -webkit-perspective: 1000px;
@@ -55,6 +56,7 @@
       transform-style: preserve-3d;
 
       position: absolute;
+
       left: 0;
       top: 0;
 
@@ -85,6 +87,7 @@
       font-family: Serif;
 
       position: absolute;
+
       top: 100%;
       left: 50%;
 
@@ -99,6 +102,7 @@
       height: 900px;
 
       position: absolute;
+
       top: 100%;
       left: 50%;
 
@@ -113,10 +117,16 @@
       );
     }
 
+    /* Music is hidden */
     #music-container {
       position: absolute;
       top: 0;
       left: 0;
+
+      width: 0;
+      height: 0;
+
+      overflow: hidden;
     }
 
     @-webkit-keyframes spin {
@@ -202,48 +212,53 @@
 
 <body>
 
+  <!-- ================================= -->
+  <!-- 3D IMAGE CONTAINER -->
+  <!-- ================================= -->
+
   <div id="drag-container">
 
     <div id="spin-container">
 
-      <!-- ========================= -->
-      <!-- YOUR IMAGES -->
-      <!-- ========================= -->
-
+      <!-- IMAGE 1 -->
       <img
         src="https://iili.io/C4N3hCB.md.png"
         alt=""
       />
 
+      <!-- IMAGE 2 -->
       <img
         src="https://iili.io/C4NFgHu.md.png"
         alt=""
       />
 
+      <!-- IMAGE 3 -->
       <img
         src="https://iili.io/C4NKcOb.md.png"
         alt=""
       />
 
+      <!-- IMAGE 4 -->
       <img
         src="https://iili.io/C4Nf929.md.png"
         alt=""
       />
 
+      <!-- IMAGE 5 -->
       <img
         src="https://iili.io/C4NfLa1.md.png"
         alt=""
       />
 
+      <!-- IMAGE 6 -->
       <img
         src="https://iili.io/C4NqGcP.md.png"
         alt=""
       />
 
-
-      <!-- ========================= -->
+      <!-- ================================= -->
       <!-- VIDEO -->
-      <!-- ========================= -->
+      <!-- ================================= -->
 
       <video controls autoplay loop>
         <source
@@ -252,10 +267,9 @@
         />
       </video>
 
-
-      <!-- ========================= -->
+      <!-- ================================= -->
       <!-- CENTER TEXT -->
-      <!-- ========================= -->
+      <!-- ================================= -->
 
       <p>Special One🫶🏻💞...</p>
 
@@ -266,16 +280,16 @@
   </div>
 
 
-  <!-- ========================= -->
-  <!-- MUSIC CONTAINER -->
-  <!-- ========================= -->
+  <!-- ================================= -->
+  <!-- BACKGROUND MUSIC -->
+  <!-- ================================= -->
 
   <div id="music-container"></div>
 
 
-  <!-- ========================= -->
+  <!-- ================================= -->
   <!-- INSTAGRAM CORNER -->
-  <!-- ========================= -->
+  <!-- ================================= -->
 
   <a
     href="https://www.instagram.com/theaniketchoudhari"
@@ -341,9 +355,9 @@
   </a>
 
 
-  <!-- ========================= -->
+  <!-- ================================= -->
   <!-- JAVASCRIPT -->
-  <!-- ========================= -->
+  <!-- ================================= -->
 
   <script>
 
@@ -363,17 +377,11 @@
 
 
     // =========================================
-    // 🎵 ONLINE BACKGROUND MUSIC
+    // 🎵 HOSTED ONLINE MUSIC
     // =========================================
 
-    // This is an ONLINE music URL.
-    // Nothing needs to be stored on your device.
-
     var bgMusicURL =
-      "https://www.youtube.com/embed/9Xq6updbDoU?autoplay=1&loop=1&playlist=9Xq6updbDoU";
-
-    // false = hide music controls
-    var bgMusicControls = false;
+      "https://www.image2url.com/r2/default/audio/1786303067831-623f57c4-3a23-4b11-bdf2-55f8b38000d1.mp3";
 
 
     // =========================================
@@ -383,44 +391,57 @@
     setTimeout(init, 100);
 
 
-    var odrag = document.getElementById("drag-container");
+    var odrag =
+      document.getElementById("drag-container");
 
-    var ospin = document.getElementById("spin-container");
+    var ospin =
+      document.getElementById("spin-container");
 
-    var aImg = ospin.getElementsByTagName("img");
+    var aImg =
+      ospin.getElementsByTagName("img");
 
-    var aVid = ospin.getElementsByTagName("video");
+    var aVid =
+      ospin.getElementsByTagName("video");
 
     var aEle = [...aImg, ...aVid];
 
 
     // =========================================
-    // SIZE OF IMAGES
+    // IMAGE SIZE
     // =========================================
 
-    ospin.style.width = imgWidth + "px";
+    ospin.style.width =
+      imgWidth + "px";
 
-    ospin.style.height = imgHeight + "px";
-
-
-    // =========================================
-    // GROUND
-    // =========================================
-
-    var ground = document.getElementById("ground");
-
-    ground.style.width = radius * 3 + "px";
-
-    ground.style.height = radius * 3 + "px";
+    ospin.style.height =
+      imgHeight + "px";
 
 
     // =========================================
-    // INITIALIZE 3D IMAGES
+    // GROUND SIZE
+    // =========================================
+
+    var ground =
+      document.getElementById("ground");
+
+    ground.style.width =
+      radius * 3 + "px";
+
+    ground.style.height =
+      radius * 3 + "px";
+
+
+    // =========================================
+    // INITIALIZE IMAGES
     // =========================================
 
     function init(delayTime) {
 
-      for (var i = 0; i < aEle.length; i++) {
+      for (
+        var i = 0;
+        i < aEle.length;
+        i++
+      ) {
 
         aEle[i].style.transform =
           "rotateY(" +
@@ -429,17 +450,20 @@
           radius +
           "px)";
 
-        aEle[i].style.transition = "transform 1s";
+        aEle[i].style.transition =
+          "transform 1s";
 
         aEle[i].style.transitionDelay =
-          delayTime || (aEle.length - i) / 4 + "s";
+          delayTime ||
+          (aEle.length - i) / 4 + "s";
+
       }
 
     }
 
 
     // =========================================
-    // CAMERA TRANSFORM
+    // TRANSFORM
     // =========================================
 
     function applyTranform(obj) {
@@ -489,7 +513,7 @@
 
 
     // =========================================
-    // AUTO SPIN
+    // AUTO ROTATE
     // =========================================
 
     if (autoRotate) {
@@ -508,32 +532,37 @@
 
 
     // =========================================
-    // 🎵 ONLINE MUSIC PLAYER
+    // 🎵 CREATE ONLINE AUDIO
     // =========================================
 
     if (bgMusicURL) {
 
-      var audio = document.createElement("audio");
+      var audio =
+        document.createElement("audio");
 
-      audio.id = "background-music";
 
-      audio.src = bgMusicURL;
+      audio.id =
+        "background-music";
+
+
+      audio.src =
+        bgMusicURL;
+
 
       audio.loop = true;
 
+
       audio.autoplay = true;
 
+
       audio.preload = "auto";
+
 
       audio.volume = 0.7;
 
 
-      // Show controls only if enabled
-      if (bgMusicControls) {
-
-        audio.controls = true;
-
-      }
+      // Hide music controls
+      audio.controls = false;
 
 
       document
@@ -541,27 +570,29 @@
         .appendChild(audio);
 
 
-      // =========================================
+      // =====================================
       // TRY AUTOPLAY
-      // =========================================
+      // =====================================
 
       audio
         .play()
         .then(function () {
 
-          console.log("🎵 Music started automatically.");
+          console.log(
+            "🎵 Music started automatically."
+          );
 
         })
         .catch(function () {
 
           console.log(
-            "Autoplay blocked by browser."
+            "Browser blocked autoplay."
           );
 
 
-          // =========================================
-          // START MUSIC ON FIRST USER ACTION
-          // =========================================
+          // ===================================
+          // START AFTER FIRST CLICK
+          // ===================================
 
           function startMusic() {
 
@@ -599,6 +630,7 @@
             startMusic
           );
 
+
           document.addEventListener(
             "touchstart",
             startMusic
@@ -610,118 +642,155 @@
 
 
     // =========================================
-    // MOUSE / TOUCH DRAG
+    // POINTER DOWN
     // =========================================
 
-    document.onpointerdown = function (e) {
+    document.onpointerdown =
+      function (e) {
 
-      clearInterval(odrag.timer);
-
-      e = e || window.event;
-
-      var sX = e.clientX;
-
-      var sY = e.clientY;
-
-
-      this.onpointermove = function (e) {
-
-        e = e || window.event;
-
-        var nX = e.clientX;
-
-        var nY = e.clientY;
-
-
-        desX = nX - sX;
-
-        desY = nY - sY;
-
-
-        tX += desX * 0.1;
-
-        tY += desY * 0.1;
-
-
-        applyTranform(odrag);
-
-
-        sX = nX;
-
-        sY = nY;
-
-      };
-
-
-      this.onpointerup = function (e) {
-
-        odrag.timer = setInterval(
-          function () {
-
-            desX *= 0.95;
-
-            desY *= 0.95;
-
-
-            tX += desX * 0.1;
-
-            tY += desY * 0.1;
-
-
-            applyTranform(odrag);
-
-
-            playSpin(false);
-
-
-            if (
-              Math.abs(desX) < 0.5 &&
-              Math.abs(desY) < 0.5
-            ) {
-
-              clearInterval(
-                odrag.timer
-              );
-
-              playSpin(true);
-
-            }
-
-          },
-          17
+        clearInterval(
+          odrag.timer
         );
+
+        e =
+          e ||
+          window.event;
+
+
+        var sX =
+          e.clientX;
+
+        var sY =
+          e.clientY;
 
 
         this.onpointermove =
-          this.onpointerup =
-          null;
+          function (e) {
+
+            e =
+              e ||
+              window.event;
+
+
+            var nX =
+              e.clientX;
+
+            var nY =
+              e.clientY;
+
+
+            desX =
+              nX - sX;
+
+            desY =
+              nY - sY;
+
+
+            tX +=
+              desX * 0.1;
+
+            tY +=
+              desY * 0.1;
+
+
+            applyTranform(
+              odrag
+            );
+
+
+            sX =
+              nX;
+
+            sY =
+              nY;
+
+          };
+
+
+        this.onpointerup =
+          function () {
+
+            odrag.timer =
+              setInterval(
+                function () {
+
+                  desX *= 0.95;
+
+                  desY *= 0.95;
+
+
+                  tX +=
+                    desX * 0.1;
+
+                  tY +=
+                    desY * 0.1;
+
+
+                  applyTranform(
+                    odrag
+                  );
+
+
+                  playSpin(false);
+
+
+                  if (
+                    Math.abs(
+                      desX
+                    ) < 0.5 &&
+                    Math.abs(
+                      desY
+                    ) < 0.5
+                  ) {
+
+                    clearInterval(
+                      odrag.timer
+                    );
+
+                    playSpin(true);
+
+                  }
+
+                },
+                17
+              );
+
+
+            this.onpointermove =
+              this.onpointerup =
+              null;
+
+          };
+
+
+        return false;
 
       };
-
-
-      return false;
-
-    };
 
 
     // =========================================
     // MOUSE WHEEL
     // =========================================
 
-    document.onmousewheel = function (e) {
+    document.onmousewheel =
+      function (e) {
 
-      e = e || window.event;
-
-      var d =
-        e.wheelDelta / 20 ||
-        -e.detail;
+        e =
+          e ||
+          window.event;
 
 
-      radius += d;
+        var d =
+          e.wheelDelta / 20 ||
+          -e.detail;
 
-      init(1);
 
-    };
+        radius += d;
+
+
+        init(1);
+
+      };
 
   </script>
 

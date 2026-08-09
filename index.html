@@ -10,21 +10,21 @@
     * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     html,
     body {
+      width: 100%;
       height: 100%;
       touch-action: none;
     }
 
     body {
       overflow: hidden;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-
       background: #111;
+
+      display: flex;
 
       -webkit-perspective: 1000px;
       perspective: 1000px;
@@ -33,12 +33,251 @@
       transform-style: preserve-3d;
     }
 
-    #drag-container,
-    #spin-container {
+
+    /* =====================================================
+       TAP TO ENTER SCREEN
+       ===================================================== */
+
+    #intro-screen {
+      position: fixed;
+      inset: 0;
+
+      z-index: 99999;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        radial-gradient(
+          circle at center,
+          #3b0b2f 0%,
+          #160916 45%,
+          #050505 100%
+        );
+
+      transition:
+        opacity 1s ease,
+        visibility 1s ease;
+    }
+
+    #intro-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+
+    /* Soft glowing circles */
+
+    #intro-screen::before {
+      content: "";
+
+      position: absolute;
+
+      width: 350px;
+      height: 350px;
+
+      border-radius: 50%;
+
+      background: rgba(255, 70, 160, 0.15);
+
+      filter: blur(70px);
+
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        transform: scale(0.9);
+        opacity: 0.5;
+      }
+
+      to {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+
+
+    .intro-content {
       position: relative;
 
-      display: -webkit-box;
-      display: -ms-flexbox;
+      z-index: 2;
+
+      text-align: center;
+
+      color: white;
+
+      padding: 30px;
+    }
+
+
+    .intro-heart {
+      font-size: 70px;
+
+      margin-bottom: 20px;
+
+      animation:
+        heartbeat 1.4s infinite;
+
+      filter:
+        drop-shadow(0 0 15px rgba(255, 80, 160, 0.8));
+    }
+
+
+    @keyframes heartbeat {
+
+      0% {
+        transform: scale(1);
+      }
+
+      25% {
+        transform: scale(1.12);
+      }
+
+      40% {
+        transform: scale(1);
+      }
+
+      60% {
+        transform: scale(1.12);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+
+    }
+
+
+    .intro-title {
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: clamp(
+        32px,
+        7vw,
+        60px
+      );
+
+      font-weight: 500;
+
+      letter-spacing: 2px;
+
+      margin-bottom: 12px;
+
+      text-shadow:
+        0 0 10px rgba(255,255,255,0.3),
+        0 0 25px rgba(255,80,160,0.4);
+    }
+
+
+    .intro-subtitle {
+
+      font-family:
+        Arial,
+        sans-serif;
+
+      font-size: 15px;
+
+      letter-spacing: 2px;
+
+      color: rgba(255,255,255,0.7);
+
+      margin-bottom: 35px;
+    }
+
+
+    /* ENTER BUTTON */
+
+    #enter-btn {
+
+      position: relative;
+
+      border: none;
+
+      outline: none;
+
+      cursor: pointer;
+
+      padding:
+        15px 38px;
+
+      border-radius: 50px;
+
+      color: white;
+
+      font-size: 16px;
+
+      font-weight: 600;
+
+      letter-spacing: 1.5px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #ff4f9a,
+          #b72cff
+        );
+
+      box-shadow:
+        0 8px 30px
+        rgba(255, 60, 160, 0.35);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+
+    #enter-btn:hover {
+
+      transform:
+        translateY(-3px)
+        scale(1.04);
+
+      box-shadow:
+        0 12px 40px
+        rgba(255, 60, 160, 0.55);
+    }
+
+
+    #enter-btn:active {
+
+      transform:
+        scale(0.96);
+    }
+
+
+    .tap-text {
+
+      margin-top: 18px;
+
+      font-family: Arial, sans-serif;
+
+      font-size: 11px;
+
+      letter-spacing: 1px;
+
+      color:
+        rgba(255,255,255,0.45);
+    }
+
+
+
+    /* =====================================================
+       3D GALLERY
+       ===================================================== */
+
+    #drag-container,
+    #spin-container {
+
+      position: relative;
+
       display: flex;
 
       margin: auto;
@@ -46,12 +285,17 @@
       -webkit-transform-style: preserve-3d;
       transform-style: preserve-3d;
 
-      -webkit-transform: rotateX(-10deg);
-      transform: rotateX(-10deg);
+      -webkit-transform:
+        rotateX(-10deg);
+
+      transform:
+        rotateX(-10deg);
     }
+
 
     #drag-container img,
     #drag-container video {
+
       -webkit-transform-style: preserve-3d;
       transform-style: preserve-3d;
 
@@ -64,26 +308,48 @@
       height: 100%;
 
       line-height: 200px;
+
       font-size: 50px;
+
       text-align: center;
 
-      -webkit-box-shadow: 0 0 8px #fff;
-      box-shadow: 0 0 8px #fff;
+      -webkit-box-shadow:
+        0 0 8px #fff;
 
-      -webkit-box-reflect: below 10px
-        linear-gradient(transparent, transparent, #0005);
+      box-shadow:
+        0 0 8px #fff;
+
+      -webkit-box-reflect:
+        below 10px
+        linear-gradient(
+          transparent,
+          transparent,
+          #0005
+        );
     }
+
 
     #drag-container img:hover,
     #drag-container video:hover {
-      -webkit-box-shadow: 0 0 15px #fffd;
-      box-shadow: 0 0 15px #fffd;
 
-      -webkit-box-reflect: below 10px
-        linear-gradient(transparent, transparent, #0007);
+      -webkit-box-shadow:
+        0 0 15px #fffd;
+
+      box-shadow:
+        0 0 15px #fffd;
+
+      -webkit-box-reflect:
+        below 10px
+        linear-gradient(
+          transparent,
+          transparent,
+          #0007
+        );
     }
 
+
     #drag-container p {
+
       font-family: Serif;
 
       position: absolute;
@@ -91,13 +357,20 @@
       top: 100%;
       left: 50%;
 
-      -webkit-transform: translate(-50%, -50%) rotateX(90deg);
-      transform: translate(-50%, -50%) rotateX(90deg);
+      -webkit-transform:
+        translate(-50%, -50%)
+        rotateX(90deg);
+
+      transform:
+        translate(-50%, -50%)
+        rotateX(90deg);
 
       color: #fff;
     }
 
+
     #ground {
+
       width: 900px;
       height: 900px;
 
@@ -106,82 +379,137 @@
       top: 100%;
       left: 50%;
 
-      -webkit-transform: translate(-50%, -50%) rotateX(90deg);
-      transform: translate(-50%, -50%) rotateX(90deg);
+      -webkit-transform:
+        translate(-50%, -50%)
+        rotateX(90deg);
 
-      background: -webkit-radial-gradient(
-        center center,
-        farthest-side,
-        #9993,
-        transparent
-      );
+      transform:
+        translate(-50%, -50%)
+        rotateX(90deg);
+
+      background:
+        -webkit-radial-gradient(
+          center center,
+          farthest-side,
+          #9993,
+          transparent
+        );
+
+      background:
+        radial-gradient(
+          circle,
+          #9993,
+          transparent
+        );
     }
 
-    /* Music is hidden */
+
     #music-container {
-      position: absolute;
-      top: 0;
-      left: 0;
+
+      position: fixed;
 
       width: 0;
       height: 0;
 
       overflow: hidden;
+
+      opacity: 0;
+
+      pointer-events: none;
     }
+
+
+    /* =====================================================
+       SPIN ANIMATION
+       ===================================================== */
 
     @-webkit-keyframes spin {
+
       from {
-        -webkit-transform: rotateY(0deg);
-        transform: rotateY(0deg);
+        -webkit-transform:
+          rotateY(0deg);
+
+        transform:
+          rotateY(0deg);
       }
 
       to {
-        -webkit-transform: rotateY(360deg);
-        transform: rotateY(360deg);
+        -webkit-transform:
+          rotateY(360deg);
+
+        transform:
+          rotateY(360deg);
       }
+
     }
+
 
     @keyframes spin {
+
       from {
-        -webkit-transform: rotateY(0deg);
-        transform: rotateY(0deg);
+        transform:
+          rotateY(0deg);
       }
 
       to {
-        -webkit-transform: rotateY(360deg);
-        transform: rotateY(360deg);
+        transform:
+          rotateY(360deg);
       }
+
     }
+
 
     @-webkit-keyframes spinRevert {
+
       from {
-        -webkit-transform: rotateY(360deg);
-        transform: rotateY(360deg);
+        -webkit-transform:
+          rotateY(360deg);
+
+        transform:
+          rotateY(360deg);
       }
 
       to {
-        -webkit-transform: rotateY(0deg);
-        transform: rotateY(0deg);
+        -webkit-transform:
+          rotateY(0deg);
+
+        transform:
+          rotateY(0deg);
       }
+
     }
+
 
     @keyframes spinRevert {
+
       from {
-        -webkit-transform: rotateY(360deg);
-        transform: rotateY(360deg);
+        transform:
+          rotateY(360deg);
       }
 
       to {
-        -webkit-transform: rotateY(0deg);
-        transform: rotateY(0deg);
+        transform:
+          rotateY(0deg);
       }
+
     }
+
+
+    /* =====================================================
+       INSTAGRAM CORNER
+       ===================================================== */
 
     .github-corner:hover .octo-arm {
-      animation: octocat-wave 560ms ease-in-out;
+
+      animation:
+        octocat-wave
+        560ms
+        ease-in-out;
     }
 
+
     @keyframes octocat-wave {
+
       0%,
       100% {
         transform: rotate(0);
@@ -196,106 +524,173 @@
       80% {
         transform: rotate(10deg);
       }
+
     }
 
+
     @media (max-width: 500px) {
+
       .github-corner:hover .octo-arm {
         animation: none;
       }
 
       .github-corner .octo-arm {
-        animation: octocat-wave 560ms ease-in-out;
+
+        animation:
+          octocat-wave
+          560ms
+          ease-in-out;
       }
+
     }
+
   </style>
 </head>
 
+
 <body>
 
-  <!-- ================================= -->
-  <!-- 3D IMAGE CONTAINER -->
-  <!-- ================================= -->
+
+  <!-- =====================================================
+       INTRO / TAP TO ENTER
+       ===================================================== -->
+
+  <div id="intro-screen">
+
+    <div class="intro-content">
+
+      <div class="intro-heart">
+        ❤️
+      </div>
+
+      <div class="intro-title">
+        Saniya♥️..
+      </div>
+
+      <div class="intro-subtitle">
+        A little surprise for you...
+      </div>
+
+      <button id="enter-btn">
+        💗 Tap to Enter 💗
+      </button>
+
+      <div class="tap-text">
+        Turn your volume up 🔊
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       3D GALLERY
+       ===================================================== -->
 
   <div id="drag-container">
 
     <div id="spin-container">
 
+
       <!-- IMAGE 1 -->
+
       <img
         src="https://iili.io/C4N3hCB.md.png"
         alt=""
       />
 
+
       <!-- IMAGE 2 -->
+
       <img
         src="https://iili.io/C4NFgHu.md.png"
         alt=""
       />
 
+
       <!-- IMAGE 3 -->
+
       <img
         src="https://iili.io/C4NKcOb.md.png"
         alt=""
       />
 
+
       <!-- IMAGE 4 -->
+
       <img
         src="https://iili.io/C4Nf929.md.png"
         alt=""
       />
 
+
       <!-- IMAGE 5 -->
+
       <img
         src="https://iili.io/C4NfLa1.md.png"
         alt=""
       />
 
+
       <!-- IMAGE 6 -->
+
       <img
         src="https://iili.io/C4NqGcP.md.png"
         alt=""
       />
 
-      <!-- ================================= -->
-      <!-- VIDEO -->
-      <!-- ================================= -->
 
-      <video controls autoplay loop>
+      <!-- VIDEO -->
+
+      <video
+        controls
+        autoplay
+        loop
+      >
+
         <source
           src="https://player.vimeo.com/external/322244668.sd.mp4?s=338c48ac2dfcb1d4c0689968b5baf94eee6ca0c1&profile_id=165&oauth2_token_id=57447761"
           type="video/mp4"
         />
+
       </video>
 
-      <!-- ================================= -->
-      <!-- CENTER TEXT -->
-      <!-- ================================= -->
 
-      <p>Special One🫶🏻💞...</p>
+      <!-- CENTER TEXT -->
+
+      <p>
+        Special One🫶🏻💞...
+      </p>
+
 
     </div>
+
 
     <div id="ground"></div>
 
   </div>
 
 
-  <!-- ================================= -->
-  <!-- BACKGROUND MUSIC -->
-  <!-- ================================= -->
+
+  <!-- =====================================================
+       MUSIC
+       ===================================================== -->
 
   <div id="music-container"></div>
 
 
-  <!-- ================================= -->
-  <!-- INSTAGRAM CORNER -->
-  <!-- ================================= -->
+
+  <!-- =====================================================
+       INSTAGRAM CORNER
+       ===================================================== -->
 
   <a
     href="https://www.instagram.com/theaniketchoudhari"
     target="_blank"
     class="github-corner"
-    aria-label="View source on GitHub"
+    aria-label="Instagram"
   >
 
     <svg
@@ -318,7 +713,8 @@
       ></path>
 
       <path
-        d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6
+        d="M128.3,109.0
+        C113.8,99.7 119.0,89.6 119.0,89.6
         C122.0,82.7 120.5,78.6 120.5,78.6
         C119.2,72.0 123.4,76.3 123.4,76.3
         C127.3,80.9 125.5,87.3 125.5,87.3
@@ -355,15 +751,17 @@
   </a>
 
 
-  <!-- ================================= -->
-  <!-- JAVASCRIPT -->
-  <!-- ================================= -->
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
 
   <script>
 
-    // =========================================
-    // 3D SETTINGS
-    // =========================================
+
+    /* =====================================================
+       3D SETTINGS
+       ===================================================== */
 
     var radius = 240;
 
@@ -376,39 +774,48 @@
     var imgHeight = 170;
 
 
-    // =========================================
-    // 🎵 HOSTED ONLINE MUSIC
-    // =========================================
+
+    /* =====================================================
+       HOSTED FALAK TAK MUSIC
+       ===================================================== */
 
     var bgMusicURL =
       "https://www.image2url.com/r2/default/audio/1786303067831-623f57c4-3a23-4b11-bdf2-55f8b38000d1.mp3";
 
 
-    // =========================================
-    // START
-    // =========================================
 
-    setTimeout(init, 100);
-
+    /* =====================================================
+       ELEMENTS
+       ===================================================== */
 
     var odrag =
-      document.getElementById("drag-container");
+      document.getElementById(
+        "drag-container"
+      );
 
     var ospin =
-      document.getElementById("spin-container");
+      document.getElementById(
+        "spin-container"
+      );
 
     var aImg =
-      ospin.getElementsByTagName("img");
+      ospin.getElementsByTagName(
+        "img"
+      );
 
     var aVid =
-      ospin.getElementsByTagName("video");
+      ospin.getElementsByTagName(
+        "video"
+      );
 
-    var aEle = [...aImg, ...aVid];
+    var aEle =
+      [...aImg, ...aVid];
 
 
-    // =========================================
-    // IMAGE SIZE
-    // =========================================
+
+    /* =====================================================
+       IMAGE SIZE
+       ===================================================== */
 
     ospin.style.width =
       imgWidth + "px";
@@ -417,12 +824,15 @@
       imgHeight + "px";
 
 
-    // =========================================
-    // GROUND SIZE
-    // =========================================
+
+    /* =====================================================
+       GROUND
+       ===================================================== */
 
     var ground =
-      document.getElementById("ground");
+      document.getElementById(
+        "ground"
+      );
 
     ground.style.width =
       radius * 3 + "px";
@@ -431,9 +841,10 @@
       radius * 3 + "px";
 
 
-    // =========================================
-    // INITIALIZE IMAGES
-    // =========================================
+
+    /* =====================================================
+       INITIALIZE 3D GALLERY
+       ===================================================== */
 
     function init(delayTime) {
 
@@ -445,7 +856,8 @@
 
         aEle[i].style.transform =
           "rotateY(" +
-          i * (360 / aEle.length) +
+          i *
+            (360 / aEle.length) +
           "deg) translateZ(" +
           radius +
           "px)";
@@ -455,16 +867,17 @@
 
         aEle[i].style.transitionDelay =
           delayTime ||
-          (aEle.length - i) / 4 + "s";
-
+          (aEle.length - i) / 4 +
+            "s";
       }
 
     }
 
 
-    // =========================================
-    // TRANSFORM
-    // =========================================
+
+    /* =====================================================
+       TRANSFORM
+       ===================================================== */
 
     function applyTranform(obj) {
 
@@ -482,25 +895,27 @@
         "deg) rotateY(" +
         tX +
         "deg)";
-
     }
 
 
-    // =========================================
-    // PLAY / PAUSE SPIN
-    // =========================================
+
+    /* =====================================================
+       PLAY / PAUSE SPIN
+       ===================================================== */
 
     function playSpin(yes) {
 
       ospin.style.animationPlayState =
-        yes ? "running" : "paused";
-
+        yes
+          ? "running"
+          : "paused";
     }
 
 
-    // =========================================
-    // DRAG VARIABLES
-    // =========================================
+
+    /* =====================================================
+       DRAG VARIABLES
+       ===================================================== */
 
     var sX,
       sY,
@@ -512,9 +927,10 @@
       tY = 10;
 
 
-    // =========================================
-    // AUTO ROTATE
-    // =========================================
+
+    /* =====================================================
+       AUTO ROTATE
+       ===================================================== */
 
     if (autoRotate) {
 
@@ -524,126 +940,122 @@
           : "spinRevert";
 
       ospin.style.animation =
-        `${animationName} ${Math.abs(
-          rotateSpeed
-        )}s infinite linear`;
-
+        `${animationName} ${
+          Math.abs(rotateSpeed)
+        }s infinite linear`;
     }
 
 
-    // =========================================
-    // 🎵 CREATE ONLINE AUDIO
-    // =========================================
 
-    if (bgMusicURL) {
+    /* =====================================================
+       CREATE AUDIO
+       ===================================================== */
 
-      var audio =
-        document.createElement("audio");
+    var audio =
+      document.createElement(
+        "audio"
+      );
 
+    audio.id =
+      "background-music";
 
-      audio.id =
-        "background-music";
+    audio.src =
+      bgMusicURL;
 
+    audio.loop = true;
 
-      audio.src =
-        bgMusicURL;
+    audio.preload = "auto";
 
+    audio.volume = 1.0;
 
-      audio.loop = true;
+    audio.controls = false;
 
+    audio.setAttribute(
+      "playsinline",
+      ""
+    );
 
-      audio.autoplay = true;
-
-
-      audio.preload = "auto";
-
-
-      audio.volume = 0.7;
-
-
-      // Hide music controls
-      audio.controls = false;
-
-
-      document
-        .getElementById("music-container")
-        .appendChild(audio);
+    document
+      .getElementById(
+        "music-container"
+      )
+      .appendChild(audio);
 
 
-      // =====================================
-      // TRY AUTOPLAY
-      // =====================================
 
-      audio
-        .play()
-        .then(function () {
+    /* =====================================================
+       TAP TO ENTER
+       ===================================================== */
 
-          console.log(
-            "🎵 Music started automatically."
-          );
+    var introScreen =
+      document.getElementById(
+        "intro-screen"
+      );
 
-        })
-        .catch(function () {
-
-          console.log(
-            "Browser blocked autoplay."
-          );
+    var enterButton =
+      document.getElementById(
+        "enter-btn"
+      );
 
 
-          // ===================================
-          // START AFTER FIRST CLICK
-          // ===================================
+    enterButton.addEventListener(
+      "click",
+      function () {
 
-          function startMusic() {
+        /*
+         IMPORTANT:
 
-            audio
-              .play()
-              .then(function () {
+         This play() happens directly
+         inside the user's click event.
 
-                console.log(
-                  "🎵 Music started."
-                );
+         Therefore Chrome / Edge / Safari
+         allow the music to start.
+        */
 
-              })
-              .catch(function (error) {
+        audio.play()
+          .then(function () {
 
-                console.log(error);
-
-              });
-
-
-            document.removeEventListener(
-              "click",
-              startMusic
+            console.log(
+              "🎵 Falak Tak started!"
             );
 
-            document.removeEventListener(
-              "touchstart",
-              startMusic
+          })
+          .catch(function (error) {
+
+            console.log(
+              "Music could not start:",
+              error
             );
 
-          }
+          });
 
 
-          document.addEventListener(
-            "click",
-            startMusic
-          );
+        /* Hide intro screen */
+
+        introScreen.classList.add(
+          "hide"
+        );
 
 
-          document.addEventListener(
-            "touchstart",
-            startMusic
-          );
+        /* Start gallery */
 
-        });
+        setTimeout(
+          function () {
 
-    }
+            init(0);
+
+          },
+          100
+        );
+
+      }
+    );
 
 
-    // =========================================
-    // POINTER DOWN
-    // =========================================
+
+    /* =====================================================
+       POINTER DRAG
+       ===================================================== */
 
     document.onpointerdown =
       function (e) {
@@ -656,11 +1068,10 @@
           e ||
           window.event;
 
-
-        var sX =
+        var startX =
           e.clientX;
 
-        var sY =
+        var startY =
           e.clientY;
 
 
@@ -671,19 +1082,18 @@
               e ||
               window.event;
 
-
-            var nX =
+            var currentX =
               e.clientX;
 
-            var nY =
+            var currentY =
               e.clientY;
 
 
             desX =
-              nX - sX;
+              currentX - startX;
 
             desY =
-              nY - sY;
+              currentY - startY;
 
 
             tX +=
@@ -698,11 +1108,11 @@
             );
 
 
-            sX =
-              nX;
+            startX =
+              currentX;
 
-            sY =
-              nY;
+            startY =
+              currentY;
 
           };
 
@@ -768,9 +1178,10 @@
       };
 
 
-    // =========================================
-    // MOUSE WHEEL
-    // =========================================
+
+    /* =====================================================
+       MOUSE WHEEL
+       ===================================================== */
 
     document.onmousewheel =
       function (e) {
@@ -779,18 +1190,31 @@
           e ||
           window.event;
 
-
         var d =
           e.wheelDelta / 20 ||
           -e.detail;
 
-
         radius += d;
-
 
         init(1);
 
       };
+
+
+
+    /* =====================================================
+       INITIAL GALLERY SETUP
+       ===================================================== */
+
+    setTimeout(
+      function () {
+
+        init(100);
+
+      },
+      100
+    );
+
 
   </script>
 
